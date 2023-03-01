@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "890517947582",
+    "project_id": "cook-dbcdd",
+    "storage_bucket": "cook-dbcdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890517947582:android:856ea0f1222ee5d7ac4aef",
+        "android_client_info": {
+          "package_name": "com.pek.cook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890517947582-0imv7mvo4bvfh9iiprf4ghme43bquub6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKOXr8_ba0YsAFSnbchlLD3ftFIkR71CE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "890517947582-0imv7mvo4bvfh9iiprf4ghme43bquub6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
