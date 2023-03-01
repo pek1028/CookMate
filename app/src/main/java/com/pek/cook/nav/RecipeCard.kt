@@ -74,7 +74,7 @@ fun RecipeCard(name: String, description: String,course: String) {
 
 @Composable
 fun CourseTag(name: String) {
-    val color = if (name == "Western") neu1 else neu5
+    val color = neu5
     ChipView(course = name, colorResource = color)
 }
 
