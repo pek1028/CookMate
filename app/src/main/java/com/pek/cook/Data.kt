@@ -3,7 +3,6 @@ package com.pek.cook
 import com.google.api.ResourceProto.resource
 
 object RecipeDatabase{
-
     val recipeList = listOf(
         Recipe(
             0,
@@ -341,5 +340,6 @@ data class Recipe(
     val step: List<String>,
     val image: Int,
     val course : String,
-    val time : Int
+    val time : Int,
+    var isFavorite: Boolean = false
 )

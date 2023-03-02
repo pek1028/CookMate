@@ -11,46 +11,42 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pek.cook.nav.NavRoutes
 import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
-import com.pek.cook.RecipeDatabase.recipeList
+import com.pek.cook.nav.NavRoutes
 import com.pek.cook.ui.theme.neu2
 import com.pek.cook.ui.theme.neu3
-import io.grpc.InternalChannelz.id
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyList(
-    navController: NavController
+    navController: NavController,
 ) {
-    val recipes = remember {RecipeDatabase.recipeList}
     Surface(
         modifier = Modifier.background(neu3),
         color = neu3
     ) {
         LazyColumn(
         ){
-            items(recipeList){
+            items(RecipeDatabase.recipeList.filter { true }) {
                 RecipeListItem(recipe = it, onClick = { id ->
                     Log.d("RecipeListItem", "Clicked recipe with id $id")
-                    val route = NavRoutes.RecipeDetails.createRoute(id)
-                    navController.navigate(route)
+                    navController.navigate(NavRoutes.RecipeDetails.createRoute(it.id))
                 })
             }
-
+        }
         }
     }
-}
+
 
 @Composable
 fun RecipeListItem(recipe: Recipe, onClick: (Int) -> Unit){
@@ -90,4 +86,10 @@ private fun RecipeImage(recipe: Recipe){
             .size(90.dp)
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ListPreview(){
+    //MyList(rememberNavController(), recipeViewModel)
 }

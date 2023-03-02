@@ -2,6 +2,7 @@ package com.pek.cook.login
 
 
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,6 +43,7 @@ fun Login(
     onLoginSuccess: () -> Unit,
     onLoginFailed: (String) -> Unit
 ){
+    val context = LocalContext.current
     val firebaseAuth = Firebase.auth
     val focusManager = LocalFocusManager.current
     var email by remember {

@@ -125,9 +125,10 @@ fun Profile(
                                 }
                         } },
                         colors = ButtonDefaults.buttonColors(backgroundColor = neu5),
-                        shape = RoundedCornerShape(50.dp)
+                        shape = RoundedCornerShape(45.dp),
+                        modifier = Modifier.padding(6.dp)
                     ) {
-
+                        Text("Confirm")
                     }
                 }
             }

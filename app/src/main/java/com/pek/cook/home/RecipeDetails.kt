@@ -1,16 +1,18 @@
 package com.pek.cook.home
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
 import com.pek.cook.nav.RecipeCard
 import com.pek.cook.ui.theme.d_gray
@@ -28,6 +31,8 @@ import com.pek.cook.ui.theme.neu4
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RecipeDetail(navController: NavController, id:Int){
+
+
     Scaffold(
         content = {
             DetailsView(id)
@@ -38,6 +43,9 @@ fun RecipeDetail(navController: NavController, id:Int){
 
 @Composable
 fun DetailsView(id: Int) {
+
+    val context = LocalContext.current
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -95,6 +103,27 @@ fun DetailsView(id: Int) {
         }
 
         item {
+            Spacer(modifier = Modifier.height(36.dp))
+            Button(
+                onClick = {
+                    Toast.makeText(context, "Ingredients added", Toast.LENGTH_SHORT).show()
+                          },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+                    .padding(16.dp, 0.dp, 16.dp, 0.dp),
+                colors = ButtonDefaults.textButtonColors(
+                    backgroundColor = neu3,
+                    contentColor = d_gray
+                )
+            ) {
+                Text(
+                    "Add to Shopping List",
+                    color = neu4)
+            }
+        }
+
+        item {
             recipe.apply {
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
@@ -140,11 +169,19 @@ fun DetailsView(id: Int) {
             }
         }
 
-        // CTA - Adopt me button
         item {
             Spacer(modifier = Modifier.height(36.dp))
             Button(
-                onClick = { /* TODO */ },
+                onClick = {
+                    if(!recipe.isFavorite){
+                        recipe.isFavorite = true
+                        Toast.makeText(context, "Added to Favourite", Toast.LENGTH_SHORT).show()
+                    }else{
+                        recipe.isFavorite = false
+                        Toast.makeText(context, "Removed from Favourite", Toast.LENGTH_SHORT).show()
+
+                    }
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
@@ -154,17 +191,24 @@ fun DetailsView(id: Int) {
                     contentColor = d_gray
                 )
             ) {
-                Text(
-                    "Add to favourite",
-                    color = neu4)
+                if(!recipe.isFavorite){
+                    Text(
+                        "Add to favourite",
+                        color = neu4)
+                }else{
+                    Text(
+                        "Remove from favourite",
+                        color = neu4)
+                }
             }
             Spacer(modifier = Modifier.height(70.dp))
         }
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun RDPreview(){
-    RecipeDetail(rememberNavController(), id = 3)
+    //RecipeDetail(rememberNavController(), id = 3, favouriteRecipes = RecipeDatabase.recipeList, addRecipeToFavourites = )
 }
