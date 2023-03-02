@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,9 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -62,6 +61,7 @@ fun NavigationHost(
     navController: NavHostController
 ) {
     val recipeList = listOf<Recipe>()
+    val recipes = remember {RecipeDatabase.recipeList}
 
     NavHost(
         navController = navController,
@@ -105,9 +105,14 @@ fun NavigationHost(
                 onSignUpFailed = { navController.navigate(NavRoutes.Login.route)} )
         }
 
-        composable(NavRoutes.RecipeDetails.route) { backStackEntry ->
+        composable("details/{recipeId}",
+        arguments = listOf(navArgument("recipeId"){
+            defaultValue = 0
+            type = NavType.IntType
+        })
+        ) { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
-            RecipeDetail(navController, id = recipeId)
+            RecipeDetail(navController, recipeId)
         }
 
     }

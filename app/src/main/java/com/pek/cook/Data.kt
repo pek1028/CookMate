@@ -120,7 +120,7 @@ object RecipeDatabase{
             12
         ),
         Recipe(
-            5,
+            4,
             "Chili Con Carne",
             "A hearty and spicy stew with beef and beans",
             listOf(
@@ -150,7 +150,7 @@ object RecipeDatabase{
             13
         ),
         Recipe(
-            6,
+            5,
             "Spinach and Feta Stuffed Chicken",
             "A delicious and easy stuffed chicken recipe",
             listOf(
@@ -174,51 +174,162 @@ object RecipeDatabase{
         23),
         Recipe(
             6,
-            "Spinach and Feta Stuffed Chicken",
-            "A delicious and easy stuffed chicken recipe",
+            "Lemon Garlic Butter Shrimp",
+            "A simple and tasty shrimp recipe",
             listOf(
-                "4 boneless, skinless chicken breasts",
-                "4 oz fresh spinach",
-                "4 oz feta cheese, crumbled",
-                "2 garlic cloves, minced",
+                "1 lb large shrimp, peeled and deveined",
+                "4 cloves garlic, minced",
+                "1/4 cup butter, melted",
+                "1/4 cup fresh lemon juice",
                 "Salt and pepper, to taste",
-                "2 tablespoons olive oil"
+                "1 tablespoon chopped fresh parsley"
             ),
             listOf(
                 "Preheat the oven to 375°F.",
-                "Butterfly the chicken breasts by cutting them horizontally through the center, being careful not to cut all the way through.",
-                "In a small bowl, mix together the spinach, feta cheese, garlic, salt, and pepper.",
-                "Stuff each chicken breast with the spinach and feta mixture and secure with toothpicks.",
-                "Heat the olive oil in an oven-safe skillet over medium-high heat. Add the chicken breasts and cook for 2-3 minutes per side, or until golden brown.",
-                "Transfer the skillet to the preheated oven and bake for 20-25 minutes, or until the chicken is cooked through."
+                "In a small bowl, whisk together the garlic, butter, lemon juice, salt, and pepper.",
+                "Arrange the shrimp in a single layer in a baking dish.",
+                "Pour the garlic butter mixture over the shrimp and toss to coat.",
+                "Bake for 10-12 minutes, or until the shrimp are pink and cooked through.",
+                "Sprinkle with fresh parsley before serving."
             ),
-            R.drawable.p6,
-            "Mediterranean",
-            10
+            R.drawable.p7,
+            "Seafood",
+            20
         ),
         Recipe(
-            6,
-            "Spinach and Feta Stuffed Chicken",
-            "A delicious and easy stuffed chicken recipe",
+            7,
+            name = "Classic Margherita Pizza",
+            "A classic Margherita pizza recipe with tomato sauce, mozzarella cheese, and fresh basil.",
             listOf(
-                "4 boneless, skinless chicken breasts",
-                "4 oz fresh spinach",
-                "4 oz feta cheese, crumbled",
-                "2 garlic cloves, minced",
+                "1 pound pizza dough",
+                "1/2 cup tomato sauce",
+                "8 ounces fresh mozzarella cheese, sliced",
+                "Fresh basil leaves, torn",
                 "Salt and pepper, to taste",
                 "2 tablespoons olive oil"
             ),
             listOf(
-                "Preheat the oven to 375°F.",
-                "Butterfly the chicken breasts by cutting them horizontally through the center, being careful not to cut all the way through.",
-                "In a small bowl, mix together the spinach, feta cheese, garlic, salt, and pepper.",
-                "Stuff each chicken breast with the spinach and feta mixture and secure with toothpicks.",
-                "Heat the olive oil in an oven-safe skillet over medium-high heat. Add the chicken breasts and cook for 2-3 minutes per side, or until golden brown.",
-                "Transfer the skillet to the preheated oven and bake for 20-25 minutes, or until the chicken is cooked through."
+                "Preheat oven to 450°F.",
+                "Roll out pizza dough on a floured surface and transfer to a baking sheet or pizza stone.",
+                "Spread tomato sauce evenly over the dough, leaving a small border around the edges.",
+                "Top with slices of mozzarella cheese and torn basil leaves.",
+                "Season with salt and pepper to taste, then drizzle with olive oil.",
+                "Bake in preheated oven for 10-15 minutes, or until the crust is golden brown and the cheese is melted and bubbly.",
+                "Slice and serve hot."
             ),
-            R.drawable.p6,
-            "Mediterranean",
-        22)
+            R.drawable.p8,
+            "Italian",
+            30
+        ),
+        Recipe(
+            8,
+            "Beef Stroganoff",
+            "A classic beef stroganoff recipe with tender strips of beef, mushrooms, and sour cream sauce.",
+            listOf(
+                "1 pound beef sirloin, sliced into thin strips",
+                "8 ounces egg noodles",
+                "8 ounces mushrooms, sliced",
+                "1/2 cup beef broth",
+                "1/2 cup sour cream",
+                "1 onion, chopped",
+                "2 garlic cloves, minced",
+                "2 tablespoons butter",
+                "2 tablespoons flour",
+                "Salt and pepper, to taste"
+            ),
+            listOf(
+                "Cook egg noodles according to package instructions.",
+                "Melt butter in a large skillet over medium-high heat. Add sliced beef and cook until browned, then remove from skillet.",
+                "Add chopped onion and minced garlic to the skillet and cook until softened, then add sliced mushrooms and cook until they release their liquid.",
+                "Add flour to the skillet and stir until it's fully incorporated with the vegetables and mushrooms. Gradually add beef broth and stir until the sauce thickens.",
+                "Add the cooked beef strips back to the skillet and stir until coated with the sauce. Reduce heat to low and stir in sour cream.",
+                "Season with salt and pepper to taste, then serve over cooked egg noodles."
+            ),
+            R.drawable.p9,
+            "Russian",
+            45
+        ),
+        Recipe(
+            9,
+            "Chicken Fajitas",
+            "An easy and flavorful chicken fajitas recipe",
+            listOf(
+                "1 lb chicken breast, sliced",
+                "1 red bell pepper, sliced",
+                "1 green bell pepper, sliced",
+                "1 onion, sliced",
+                "2 tbsp olive oil",
+                "1 tbsp chili powder",
+                "1 tsp cumin",
+                "1/2 tsp garlic powder",
+                "1/2 tsp paprika",
+                "1/4 tsp salt",
+                "Flour tortillas, for serving",
+                "Sour cream, for serving",
+                "Salsa, for serving",
+                "Shredded cheese, for serving"
+            ),
+            listOf(
+                "In a small bowl, mix together the chili powder, cumin, garlic powder, paprika, and salt.",
+                "In a large skillet, heat the olive oil over medium-high heat. Add the chicken and cook for 5-7 minutes, or until browned and cooked through.",
+                "Add the sliced bell peppers and onion to the skillet with the chicken. Cook for an additional 5-7 minutes, or until the vegetables are tender.",
+                "Sprinkle the spice mixture over the chicken and vegetables. Stir well to coat.",
+                "Serve the chicken and vegetable mixture in warm flour tortillas with sour cream, salsa, and shredded cheese."
+            ),
+            R.drawable.p10,
+            "Mexican",
+            30
+        ),
+        Recipe(
+            10,
+            "One-Pot Creamy Garlic Pasta",
+            "A simple and delicious pasta dish that's easy to make in just one pot.",
+            listOf(
+                "12 oz linguine",
+                "4 cups vegetable broth",
+                "1 cup heavy cream",
+                "1/2 cup grated parmesan cheese",
+                "4 cloves garlic, minced",
+                "2 tablespoons olive oil",
+                "Salt and pepper, to taste"
+            ),
+            listOf(
+                "In a large pot or Dutch oven, heat the olive oil over medium-high heat.",
+                "Add the garlic and sauté for 1-2 minutes, or until fragrant.",
+                "Add the linguine, vegetable broth, and heavy cream to the pot.",
+                "Bring to a boil, then reduce the heat and simmer for 10-12 minutes, stirring occasionally, until the pasta is cooked and the sauce has thickened.",
+                "Remove from heat and stir in the parmesan cheese. Season with salt and pepper to taste.",
+                "Serve hot, garnished with additional parmesan cheese and chopped parsley if desired."
+            ),
+            R.drawable.p11,
+            "Italian",
+            25
+        ),
+        Recipe(
+            11,
+            "Sheet Pan Salmon and Asparagus",
+            "A healthy and flavorful dinner that's easy to prepare using just one sheet pan.",
+            listOf(
+                "4 salmon fillets",
+                "1 lb asparagus, trimmed",
+                "1 lemon, thinly sliced",
+                "4 cloves garlic, minced",
+                "2 tablespoons olive oil",
+                "Salt and pepper, to taste"
+            ),
+            listOf(
+                "Preheat the oven to 425°F.",
+                "Arrange the salmon fillets and asparagus on a large sheet pan. Scatter the minced garlic over the top.",
+                "Drizzle the olive oil over the salmon and asparagus, then season with salt and pepper to taste.",
+                "Arrange the lemon slices over the top of the salmon.",
+                "Bake for 12-15 minutes, or until the salmon is cooked through and the asparagus is tender.",
+                "Serve hot, garnished with additional lemon wedges if desired."
+            ),
+            R.drawable.p12,
+            "Seafood",
+            20
+        )
+
     )
 }
 

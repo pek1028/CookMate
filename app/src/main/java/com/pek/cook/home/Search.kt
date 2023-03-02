@@ -72,7 +72,8 @@ fun Search(navController: NavController, RecipeList: List<Recipe>) {
                     items(recipeList.filter { it.name.contains(search) }) {
                         RecipeListItem(recipe = it, onClick = { id ->
                             Log.d("RecipeListItem", "Clicked recipe with id $id")
-                            navController.navigate(NavRoutes.RecipeDetails.createRoute(it.id))
+                            val route = NavRoutes.RecipeDetails.createRoute(id)
+                            navController.navigate(route)
                         })
                     }
                 }

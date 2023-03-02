@@ -27,7 +27,7 @@ import com.pek.cook.ui.theme.neu4
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipeDetail(navController: NavController, id: Int){
+fun RecipeDetail(navController: NavController, id:Int){
     Scaffold(
         content = {
             DetailsView(id)
@@ -134,7 +134,7 @@ fun DetailsView(id: Int) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     InfoCard(title = "ID", value = recipe.id.toString())
-                    InfoCard(title = "Time", value = recipe.time.toString() + "min")
+                    InfoCard(title = "Time", value = recipe.time.toString() + " min")
                     InfoCard(title = "Course", value = recipe.course)
                 }
             }

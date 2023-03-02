@@ -23,12 +23,16 @@ import androidx.navigation.NavController
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
+import com.pek.cook.RecipeDatabase.recipeList
 import com.pek.cook.ui.theme.neu2
 import com.pek.cook.ui.theme.neu3
+import io.grpc.InternalChannelz.id
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MyList(navController: NavController) {
+fun MyList(
+    navController: NavController
+) {
     val recipes = remember {RecipeDatabase.recipeList}
     Surface(
         modifier = Modifier.background(neu3),
@@ -36,15 +40,14 @@ fun MyList(navController: NavController) {
     ) {
         LazyColumn(
         ){
-            items(
-                items = recipes,
-                itemContent = {
-                    RecipeListItem(recipe = it, onClick = { id ->
-                        Log.d("RecipeListItem", "Clicked recipe with id $id")
-                        navController.navigate(NavRoutes.RecipeDetails.createRoute(it.id))
-                    })
-                }
-            )
+            items(recipeList){
+                RecipeListItem(recipe = it, onClick = { id ->
+                    Log.d("RecipeListItem", "Clicked recipe with id $id")
+                    val route = NavRoutes.RecipeDetails.createRoute(id)
+                    navController.navigate(route)
+                })
+            }
+
         }
     }
 }
