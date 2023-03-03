@@ -100,6 +100,11 @@ fun NavigationHost(
             SignUp(navController)
         }
 
+        composable(NavRoutes.Logout.route){
+            auth.signOut()
+            Login(navController)
+        }
+
         composable("details/{recipeId}",
         arguments = listOf(navArgument("recipeId"){
             defaultValue = 0
@@ -158,12 +163,7 @@ fun Home(navController : NavController) {
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        auth.signOut()
-                        navController.navigate(
-                            NavRoutes.Login.route,
-                            NavOptions.Builder()
-                                .setPopUpTo(NavRoutes.Login.route, true)
-                                .build() )
+                        navController.navigate(NavRoutes.Logout.route)
                                      },
                         modifier = Modifier
                             .height(45.dp)
