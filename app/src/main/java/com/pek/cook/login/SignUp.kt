@@ -13,6 +13,7 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -21,9 +22,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import androidx.navigation.NavController
 import com.pek.cook.R
+import com.pek.cook.model.AuthViewModel
 import com.pek.cook.ui.theme.neu1
 import com.pek.cook.ui.theme.neu3
 import com.pek.cook.ui.theme.neu4
@@ -31,13 +32,16 @@ import com.pek.cook.ui.theme.neu5
 
 
 @Composable
-fun SignUp(onSignUpSuccess: () -> Unit,
-           onSignUpFailed: (String) -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    val isEmailValid by derivedStateOf {
-        Patterns.EMAIL_ADDRESS.matcher(email).matches()
+fun SignUp(
+    navController : NavController
+) {
+
+    val context = LocalContext.current
+
+    val viewModel = remember { AuthViewModel() }
+
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     Column(
@@ -64,39 +68,37 @@ fun SignUp(onSignUpSuccess: () -> Unit,
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Email", color = neu4) },
-            value = email,
-            onValueChange = { email = it },
+            value = viewModel.email,
+            onValueChange = { viewModel.email = it },
             modifier = Modifier.background(neu1),
             textStyle = TextStyle(neu4))
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Password", color = neu4) },
-            value = password,
+            value = viewModel.password,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password = it },
+            onValueChange = { viewModel.password = it },
             modifier = Modifier.background(neu1),
             textStyle = TextStyle(neu4))
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Confirm Password", color = neu4) },
-            value = confirmPassword,
+            value = viewModel.cpassword,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { confirmPassword = it },
+            onValueChange = { viewModel.cpassword = it },
             modifier = Modifier.background(neu1),
             textStyle = TextStyle(neu4))
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    if (password == confirmPassword) {
-                        
-                    } else {
-                        onSignUpFailed("Passwords do not match")
+                    if (viewModel.password == viewModel.cpassword) {
+                        viewModel.signUpUser(context, navController)
                     }
                 },
-                enabled = isEmailValid,
+                enabled = isValidEmail(viewModel.email.text),
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .width(180.dp)

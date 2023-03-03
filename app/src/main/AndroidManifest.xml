@@ -12,12 +12,6 @@
         android:theme="@style/Theme.COOK"
         tools:targetApi="31">
         <activity
-            android:name=".DetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RecipeDetail"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

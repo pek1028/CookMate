@@ -1,6 +1,7 @@
 package com.pek.cook.home
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.pek.cook.MainActivity.Companion.TAG
 import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
 import com.pek.cook.nav.RecipeCard
@@ -31,8 +35,6 @@ import com.pek.cook.ui.theme.neu4
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RecipeDetail(navController: NavController, id:Int){
-
-
     Scaffold(
         content = {
             DetailsView(id)
@@ -124,9 +126,15 @@ fun DetailsView(id: Int) {
                     contentColor = d_gray
                 )
             ) {
-                Text(
-                    "Add to Shopping List",
-                    color = neu4)
+                if(!recipe.isIngredient){
+                    Text(
+                        "Add to Shopping List",
+                        color = neu4)
+                }else{
+                    Text(
+                        "Remove from Shopping List",
+                        color = neu4)
+                }
             }
         }
 
@@ -182,9 +190,11 @@ fun DetailsView(id: Int) {
                 onClick = {
                     if(!recipe.isFavorite){
                         recipe.isFavorite = true
+                        addToFavorites(recipe)
                         Toast.makeText(context, "Added to Favourite", Toast.LENGTH_SHORT).show()
                     }else{
                         recipe.isFavorite = false
+                        removeFromFavorites(recipe)
                         Toast.makeText(context, "Removed from Favourite", Toast.LENGTH_SHORT).show()
 
                     }
@@ -200,7 +210,7 @@ fun DetailsView(id: Int) {
             ) {
                 if(!recipe.isFavorite){
                     Text(
-                        "Add to favourite",
+                        "Add to Favourite",
                         color = neu4)
                 }else{
                     Text(
@@ -212,10 +222,38 @@ fun DetailsView(id: Int) {
         }
 
     }
+
 }
+
+@SuppressLint("StaticFieldLeak")
+val db = Firebase.firestore
+val favoritesRef = db.collection("favorites")
+fun addToFavorites(recipe: Recipe) {
+    recipe.isFavorite = true // Update the favorite status
+    val document = favoritesRef.document(recipe.id.toString())
+    document.set(recipe)
+        .addOnSuccessListener {
+            Log.d(TAG, "Recipe added to favorites: ${recipe.id}")
+        }
+        .addOnFailureListener { e ->
+            Log.w(TAG, "Error adding recipe to favorites", e)
+        }
+}
+
+fun removeFromFavorites(recipe: Recipe) {
+    val document = favoritesRef.document(recipe.id.toString())
+    document.delete()
+        .addOnSuccessListener {
+            Log.d(TAG, "Recipe removed from favorites: ${recipe.id}")
+        }
+        .addOnFailureListener { e ->
+            Log.w(TAG, "Error removing recipe from favorites", e)
+        }
+}
+
 
 @Preview(showBackground = true)
 @Composable
 fun RDPreview(){
-    //RecipeDetail(rememberNavController(), id = 3, favouriteRecipes = RecipeDatabase.recipeList, addRecipeToFavourites = )
+    RecipeDetail(rememberNavController(), id = 3)
 }

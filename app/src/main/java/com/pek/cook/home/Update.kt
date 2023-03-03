@@ -1,5 +1,6 @@
 package com.pek.cook.home
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,9 +8,11 @@ import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -21,6 +24,7 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pek.cook.R
+import com.pek.cook.model.AuthViewModel
 import com.pek.cook.ui.theme.neu1
 import com.pek.cook.ui.theme.neu3
 import com.pek.cook.ui.theme.neu4
@@ -29,14 +33,14 @@ import com.pek.cook.ui.theme.neu5
 @Composable
 fun Profile(
     auth: FirebaseAuth,
-    onPasswordChangeSuccess: () -> Unit,
-    onPasswordChangeFailed: (String) -> Unit,
     navController : NavController
 ){
+    val context = LocalContext.current
     val currentUser = auth.currentUser
     var email by remember { mutableStateOf(currentUser?.email ?: "") }
     var password by remember { mutableStateOf("") }
-    var cPassword by remember { mutableStateOf("") }
+    var cpassword by remember { mutableStateOf("") }
+    val viewModel = remember { AuthViewModel() }
 
     Box(
         modifier = Modifier
@@ -95,35 +99,26 @@ fun Profile(
                     TextField(
                         label = { Text(text = "Confirm Password", color = neu4) },
                         singleLine = true,
-                        value = cPassword,
+                        value = cpassword,
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        onValueChange = { cPassword = it },
+                        onValueChange = { cpassword = it },
                         modifier = Modifier.background(neu1),
                         textStyle = TextStyle(neu4)
                     )
                     Spacer(modifier = Modifier.height(30.dp))
-                    Button(onClick = { val user = auth.currentUser
-                        if (user != null) {
-                            val credential = EmailAuthProvider.getCredential(user.email!!, password)
-                            user.reauthenticate(credential)
-                                .addOnSuccessListener {
-                                    if (password == cPassword) {
-                                        user.updatePassword(cPassword.toString())
-                                            .addOnSuccessListener {
-                                                onPasswordChangeSuccess()
-                                            }
-                                            .addOnFailureListener {
-                                                onPasswordChangeFailed(it.message!!)
-                                            }
-                                    } else {
-                                        onPasswordChangeFailed("Passwords do not match.")
-                                    }
-                                }
-                                .addOnFailureListener {
-                                    onPasswordChangeFailed(it.message!!)
-                                }
-                        } },
+                    Button(onClick = {
+                        if (password == cpassword) {
+                            // Call update email function in AuthViewModel
+                            viewModel.updateEmail(context, email)
+
+                            // Call update password function in AuthViewModel
+                            viewModel.updatePassword(context, password)
+                        }else {
+                            // Show an error message if the passwords don't match
+                            Toast.makeText(context, "Passwords don't match", Toast.LENGTH_SHORT).show()
+                        }
+                                     },
                         colors = ButtonDefaults.buttonColors(backgroundColor = neu5),
                         shape = RoundedCornerShape(45.dp),
                         modifier = Modifier.padding(6.dp)

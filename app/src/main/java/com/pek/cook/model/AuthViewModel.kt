@@ -14,19 +14,19 @@ import com.pek.cook.nav.NavRoutes
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class LoginViewModel : ViewModel() {
+class AuthViewModel : ViewModel() {
     var email by mutableStateOf(TextFieldValue())
     var password by mutableStateOf(TextFieldValue())
-
+    var cpassword by mutableStateOf(TextFieldValue())
     fun loginUser(context: Context, navController: NavController) {
         val auth = FirebaseAuth.getInstance()
         viewModelScope.launch {
             try {
                 val result = auth.signInWithEmailAndPassword(email.text, password.text).await()
-                Toast.makeText(context, "Sign in successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                 navController.navigate(NavRoutes.Frame.route)
             } catch (e: Exception) {
-                Toast.makeText(context, "Sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -39,11 +39,33 @@ class LoginViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     // Sign up success, update UI with the signed-in user's information
                     Toast.makeText(context, "Sign up successful!", Toast.LENGTH_SHORT).show()
-                    navController.navigate("home")
+                    navController.navigate(NavRoutes.Login.route)
                 } else {
                     // If sign up fails, display a message to the user.
                     Toast.makeText(context, "Sign up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    fun updateEmail(context: Context, newEmail: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.updateEmail(newEmail)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "Email updated successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Email update failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun updatePassword(context: Context, newPassword: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.updatePassword(newPassword)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "Password updated successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Password update failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.*
@@ -61,7 +62,6 @@ fun NavigationHost(
     navController: NavHostController
 ) {
     val recipeList = listOf<Recipe>()
-    val recipes = remember {RecipeDatabase.recipeList}
 
     NavHost(
         navController = navController,
@@ -89,8 +89,7 @@ fun NavigationHost(
         }
 
         composable(NavRoutes.Update.route){
-            Profile(auth, onPasswordChangeSuccess = { navController.navigate(NavRoutes.Home.route) },
-                onPasswordChangeFailed = { } ,navController)
+            Profile(auth ,navController)
         }
 
         composable(NavRoutes.Login.route){
@@ -98,9 +97,7 @@ fun NavigationHost(
         }
 
         composable(NavRoutes.SignUp.route){
-            SignUp(
-                onSignUpSuccess = { navController.navigate(NavRoutes.Frame.route) },
-                onSignUpFailed = { navController.navigate(NavRoutes.Login.route)} )
+            SignUp(navController)
         }
 
         composable("details/{recipeId}",
@@ -189,11 +186,18 @@ fun Home(navController : NavController) {
                                 color = neu4,
                                 fontStyle = FontStyle.Italic,
                             textAlign = TextAlign.Center)
-                            Spacer(modifier = Modifier.height(20.dp))
                         }
                     }
+                    Spacer(modifier = Modifier.height(80.dp))
+                    Text(text = "  Session Expired!\nPlease login again!")
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HomePreview(){
+    Home(rememberNavController())
 }

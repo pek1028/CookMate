@@ -14,20 +14,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.pek.cook.R
 import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
 import com.pek.cook.nav.NavRoutes
-import com.pek.cook.ui.theme.neu2
-import com.pek.cook.ui.theme.neu3
-import com.pek.cook.ui.theme.neu4
+import com.pek.cook.ui.theme.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -40,8 +43,25 @@ fun MyList(
             .fillMaxSize(),
         color = neu3
     ) {
-        if(RecipeDatabase.recipeList.isEmpty()){
-            Text(text = "Favourite List is empty!")
+        if(RecipeDatabase.recipeList.none { it.isIngredient }){
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.mipmap.cookmate),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(150.dp),
+                    contentScale = ContentScale.Crop)
+                Text(
+                    text = "Shopping List is empty!",
+                    color = neu4,
+                    textAlign = TextAlign.Center,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.SemiBold)
+            }
         }else{
             LazyColumn()
             {
@@ -65,7 +85,7 @@ fun Ingredients(recipe: Recipe, onClick: (Int) -> Unit){
             .width(360.dp)
             .padding(horizontal = 8.dp, vertical = 8.dp),
         elevation = 2.dp,
-        backgroundColor = neu2,
+        backgroundColor = neu1,
         shape = RoundedCornerShape(corner = CornerSize(16.dp))
     ) {
         Row(
@@ -139,19 +159,6 @@ private fun RecipeImage(recipe: Recipe){
             .padding(8.dp)
             .size(90.dp)
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
-    )
-}
-
-@Composable
-private fun IngredientImage(recipe: Recipe){
-    Image(
-        painter = painterResource(id = recipe.image),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .padding(8.dp)
-            .size(90.dp)
-            .clip(RoundedCornerShape(corner = CornerSize(14.dp)))
     )
 }
 

@@ -1,8 +1,6 @@
 package com.pek.cook.login
 
 
-import android.util.Patterns
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -27,25 +24,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.R
-import com.pek.cook.model.LoginViewModel
-import com.pek.cook.setIsLoggedIn
+import com.pek.cook.model.AuthViewModel
 import com.pek.cook.ui.theme.*
-import kotlinx.coroutines.tasks.await
 
 @Composable
 fun Login(
     navController : NavController
 ){
     val context = LocalContext.current
-    val viewModel = remember { LoginViewModel() }
+    val viewModel = remember { AuthViewModel() }
+
     val email by remember {
         mutableStateOf("")
     }
@@ -85,7 +76,7 @@ fun Login(
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "-A recipe app for meal planning and discovery-",
+                text = "A recipe app for\n-DISCOVERY-",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontStyle = FontStyle.Italic,
