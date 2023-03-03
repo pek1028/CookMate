@@ -1,6 +1,5 @@
 package com.pek.cook.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,41 +16,41 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.pek.cook.MainActivity.Companion.TAG
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.pek.cook.R
 import com.pek.cook.Recipe
-import com.pek.cook.RecipeDatabase
+import com.pek.cook.model.getFavoriteRecipesFromFirestore
 import com.pek.cook.nav.NavRoutes
-import com.pek.cook.nav.RecipeCard
 import com.pek.cook.ui.theme.neu3
 import com.pek.cook.ui.theme.neu4
 
 
 @Composable
 fun MyRecipe(navController: NavController) {
+
+    val currentUser = Firebase.auth.currentUser
+    val userId = currentUser?.uid ?: ""
+    val recipeListState = remember { mutableStateOf<List<Recipe>>(emptyList()) }
+
+
     Surface(
         modifier = Modifier
             .background(neu3)
             .fillMaxSize(),
         color = neu3
     ) {
-        val favoriteRecipesState = remember { mutableStateOf(emptyList<Recipe>()) }
 
-        getFavoriteRecipes(
-            onSuccess = { favoriteRecipes ->
-                favoriteRecipesState.value = favoriteRecipes
-            },
-            onFailure = { e ->
-                Log.w(TAG, "Error getting favorite recipes", e)
-            }
-        )
+        // Retrieve favorite recipe list from Firestore and update state
+        getFavoriteRecipesFromFirestore(userId) { recipeList ->
+            recipeListState.value = recipeList
+        }
 
-        if (RecipeDatabase.recipeList.none { it.isFavorite }) {
+        if (recipeListState.value.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
@@ -65,7 +64,7 @@ fun MyRecipe(navController: NavController) {
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    text = "Favourite List is empty!",
+                    text = "Favorite list is empty!",
                     color = neu4,
                     textAlign = TextAlign.Center,
                     fontSize = 30.sp,
@@ -73,9 +72,10 @@ fun MyRecipe(navController: NavController) {
                 )
             }
         } else {
-            LazyColumn()
-            {
-                items(RecipeDatabase.recipeList.filter { it.isFavorite }) { recipe ->
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                items(recipeListState.value) { recipe ->
                     RecipeListItem(recipe = recipe, onClick = { id ->
                         val route = NavRoutes.RecipeDetails.createRoute(id)
                         navController.navigate(route)
@@ -83,35 +83,7 @@ fun MyRecipe(navController: NavController) {
                 }
             }
         }
-        """if (favoriteRecipesState.value.isEmpty()) {
-            Text("No favorite recipes")
-        } else {
-            LazyColumn {
-                items(favoriteRecipesState.value) { recipe ->
-                    RecipeListItem(recipe = recipe, onClick = { id ->
-                        val route = NavRoutes.RecipeDetails.createRoute(id)
-                        navController.navigate(route)
-                    })
-                }
-            }
-        }"""
     }
 }
 
 
-fun getFavoriteRecipes(onSuccess: (List<Recipe>) -> Unit, onFailure: (Exception) -> Unit) {
-    favoritesRef.get()
-        .addOnSuccessListener { querySnapshot ->
-            val favoriteRecipes = mutableListOf<Recipe>()
-            for (document in querySnapshot.documents) {
-                val recipe = document.toObject(Recipe::class.java)
-                if (recipe != null) {
-                    favoriteRecipes.add(recipe)
-                }
-            }
-            onSuccess(favoriteRecipes)
-        }
-        .addOnFailureListener { e ->
-            onFailure(e)
-        }
-    }

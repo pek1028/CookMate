@@ -26,9 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.pek.cook.R
 import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
+import com.pek.cook.model.getFavoriteRecipesFromFirestore
+import com.pek.cook.model.getIngredientsFromFirestore
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.ui.theme.*
 
@@ -37,13 +41,23 @@ import com.pek.cook.ui.theme.*
 fun MyList(
     navController: NavController,
 ) {
+
+    val currentUser = Firebase.auth.currentUser
+    val userId = currentUser?.uid ?: ""
+    val recipeListState = remember { mutableStateOf<List<Recipe>>(emptyList()) }
+
     Surface(
         modifier = Modifier
             .background(neu3)
             .fillMaxSize(),
         color = neu3
     ) {
-        if(RecipeDatabase.recipeList.none { it.isIngredient }){
+        // Retrieve favorite recipe list from Firestore and update state
+        getIngredientsFromFirestore(userId) { recipeList ->
+            recipeListState.value = recipeList
+        }
+
+        if (recipeListState.value.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
@@ -54,24 +68,26 @@ fun MyList(
                     contentDescription = null,
                     modifier = Modifier
                         .size(150.dp),
-                    contentScale = ContentScale.Crop)
+                    contentScale = ContentScale.Crop
+                )
                 Text(
-                    text = "Shopping List is empty!",
+                    text = "Favorite list is empty!",
                     color = neu4,
                     textAlign = TextAlign.Center,
                     fontSize = 30.sp,
-                    fontWeight = FontWeight.SemiBold)
+                    fontWeight = FontWeight.SemiBold
+                )
             }
-        }else{
-            LazyColumn()
-            {
-                items(RecipeDatabase.recipeList.filter { it.isIngredient }) { recipe ->
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                items(recipeListState.value) { recipe ->
                     Ingredients(recipe = recipe, onClick = { id ->
                         val route = NavRoutes.RecipeDetails.createRoute(id)
                         navController.navigate(route)
                     })
                 }
-
             }
         }
     }

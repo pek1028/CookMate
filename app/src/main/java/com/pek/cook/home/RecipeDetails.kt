@@ -1,7 +1,6 @@
 package com.pek.cook.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,11 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.pek.cook.MainActivity.Companion.TAG
-import com.pek.cook.Recipe
 import com.pek.cook.RecipeDatabase
+import com.pek.cook.model.*
 import com.pek.cook.nav.RecipeCard
 import com.pek.cook.ui.theme.d_gray
 import com.pek.cook.ui.theme.neu1
@@ -46,6 +44,8 @@ fun RecipeDetail(navController: NavController, id:Int){
 @Composable
 fun DetailsView(id: Int) {
 
+    val currentUser = Firebase.auth.currentUser
+    val userId = currentUser?.uid ?: ""
     val context = LocalContext.current
 
     LazyColumn(
@@ -106,16 +106,27 @@ fun DetailsView(id: Int) {
 
         item {
             Spacer(modifier = Modifier.height(36.dp))
+            val buttonText = remember(recipe.isIngredient) {
+                if (!recipe.isIngredient) {
+                    "Add to Shopping List"
+                } else {
+                    "Remove from Shopping List"
+                }
+            }
             Button(
                 onClick = {
                     if(!recipe.isIngredient){
                         recipe.isIngredient = true
+                        addListToFirestore(userId, recipe)
+                        addToShopping(recipe, userId)
                         Toast.makeText(context, "Ingredient added to List", Toast.LENGTH_SHORT).show()
                     }else{
                         recipe.isIngredient = false
+                        removeIngredient(recipe, userId)
                         Toast.makeText(context, "Removed from List", Toast.LENGTH_SHORT).show()
 
                     }
+
                           },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -126,15 +137,7 @@ fun DetailsView(id: Int) {
                     contentColor = d_gray
                 )
             ) {
-                if(!recipe.isIngredient){
-                    Text(
-                        "Add to Shopping List",
-                        color = neu4)
-                }else{
-                    Text(
-                        "Remove from Shopping List",
-                        color = neu4)
-                }
+                Text(buttonText)
             }
         }
 
@@ -186,15 +189,23 @@ fun DetailsView(id: Int) {
 
         item {
             Spacer(modifier = Modifier.height(36.dp))
+            val buttonText = remember(recipe.isFavorite) {
+                if (!recipe.isFavorite) {
+                    "Add to Favourite"
+                } else {
+                    "Remove from Favourite"
+                }
+            }
             Button(
                 onClick = {
                     if(!recipe.isFavorite){
                         recipe.isFavorite = true
-                        addToFavorites(recipe)
+                        addRecipeToFirestore(userId, recipe)
+                        addToFavorites(recipe, userId)
                         Toast.makeText(context, "Added to Favourite", Toast.LENGTH_SHORT).show()
                     }else{
                         recipe.isFavorite = false
-                        removeFromFavorites(recipe)
+                        removeRecipeFromFavorites(recipe, userId)
                         Toast.makeText(context, "Removed from Favourite", Toast.LENGTH_SHORT).show()
 
                     }
@@ -208,47 +219,13 @@ fun DetailsView(id: Int) {
                     contentColor = d_gray
                 )
             ) {
-                if(!recipe.isFavorite){
-                    Text(
-                        "Add to Favourite",
-                        color = neu4)
-                }else{
-                    Text(
-                        "Remove from favourite",
-                        color = neu4)
-                }
+                Text(buttonText)
             }
             Spacer(modifier = Modifier.height(70.dp))
         }
 
     }
 
-}
-
-@SuppressLint("StaticFieldLeak")
-val db = Firebase.firestore
-val favoritesRef = db.collection("favorites")
-fun addToFavorites(recipe: Recipe) {
-    recipe.isFavorite = true // Update the favorite status
-    val document = favoritesRef.document(recipe.id.toString())
-    document.set(recipe)
-        .addOnSuccessListener {
-            Log.d(TAG, "Recipe added to favorites: ${recipe.id}")
-        }
-        .addOnFailureListener { e ->
-            Log.w(TAG, "Error adding recipe to favorites", e)
-        }
-}
-
-fun removeFromFavorites(recipe: Recipe) {
-    val document = favoritesRef.document(recipe.id.toString())
-    document.delete()
-        .addOnSuccessListener {
-            Log.d(TAG, "Recipe removed from favorites: ${recipe.id}")
-        }
-        .addOnFailureListener { e ->
-            Log.w(TAG, "Error removing recipe from favorites", e)
-        }
 }
 
 

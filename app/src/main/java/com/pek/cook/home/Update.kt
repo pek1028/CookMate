@@ -42,6 +42,10 @@ fun Profile(
     var cpassword by remember { mutableStateOf("") }
     val viewModel = remember { AuthViewModel() }
 
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -106,7 +110,7 @@ fun Profile(
                         modifier = Modifier.background(neu1),
                         textStyle = TextStyle(neu4)
                     )
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
                         if (password == cpassword) {
                             // Call update email function in AuthViewModel
@@ -121,7 +125,10 @@ fun Profile(
                                      },
                         colors = ButtonDefaults.buttonColors(backgroundColor = neu5),
                         shape = RoundedCornerShape(45.dp),
-                        modifier = Modifier.padding(6.dp)
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(50.dp),
+                        enabled = isValidEmail(email)
                     ) {
                         Text("Confirm")
                     }

@@ -37,10 +37,6 @@ fun Login(
     val context = LocalContext.current
     val viewModel = remember { AuthViewModel() }
 
-    val email by remember {
-        mutableStateOf("")
-    }
-
     fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }

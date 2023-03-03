@@ -37,7 +37,7 @@ object RecipeDatabase{
                 "Serve the chicken tikka masala over cooked rice."
             ),
             R.drawable.p1,
-            "Western",
+            "Indian",
             10
         ),
         Recipe(
@@ -333,14 +333,16 @@ object RecipeDatabase{
 }
 
 data class Recipe(
-    val id: Int,
-    val name: String,
-    val description : String,
-    val ingredients: List<String>,
-    val step: List<String>,
-    val image: Int,
-    val course : String,
-    val time : Int,
+    val id: Int = 0,
+    val name: String = "",
+    val description : String = "",
+    val ingredients: List<String> = emptyList(),
+    val step: List<String> = emptyList(),
+    val image: Int = 0,
+    val course : String = "",
+    val time : Int = 0,
     var isFavorite: Boolean = false,
     var isIngredient: Boolean = false
 )
+
+
