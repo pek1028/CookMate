@@ -94,9 +94,7 @@ fun NavigationHost(
         }
 
         composable(NavRoutes.Login.route){
-            Login(navController,
-            onLoginSuccess = {navController.navigate(NavRoutes.Frame.route)},
-            onLoginFailed = { })
+            Login(navController)
         }
 
         composable(NavRoutes.SignUp.route){

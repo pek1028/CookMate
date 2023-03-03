@@ -106,7 +106,14 @@ fun DetailsView(id: Int) {
             Spacer(modifier = Modifier.height(36.dp))
             Button(
                 onClick = {
-                    Toast.makeText(context, "Ingredients added", Toast.LENGTH_SHORT).show()
+                    if(!recipe.isIngredient){
+                        recipe.isIngredient = true
+                        Toast.makeText(context, "Ingredient added to List", Toast.LENGTH_SHORT).show()
+                    }else{
+                        recipe.isIngredient = false
+                        Toast.makeText(context, "Removed from List", Toast.LENGTH_SHORT).show()
+
+                    }
                           },
                 modifier = Modifier
                     .fillMaxWidth()

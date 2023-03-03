@@ -341,5 +341,6 @@ data class Recipe(
     val image: Int,
     val course : String,
     val time : Int,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    var isIngredient: Boolean = false
 )

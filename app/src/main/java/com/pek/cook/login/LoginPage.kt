@@ -30,31 +30,28 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.R
+import com.pek.cook.model.LoginViewModel
 import com.pek.cook.setIsLoggedIn
 import com.pek.cook.ui.theme.*
+import kotlinx.coroutines.tasks.await
 
 @Composable
 fun Login(
-    navController : NavController,
-    onLoginSuccess: () -> Unit,
-    onLoginFailed: (String) -> Unit
+    navController : NavController
 ){
     val context = LocalContext.current
-    val firebaseAuth = Firebase.auth
-    val focusManager = LocalFocusManager.current
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
+    val viewModel = remember { LoginViewModel() }
+    val email by remember {
         mutableStateOf("")
     }
 
-    val isEmailValid by derivedStateOf {
-        Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     Box(
@@ -104,35 +101,32 @@ fun Login(
             TextField(
                 label = { Text(text = "Email", color = neu4) },
                 singleLine = true,
-                value = email,
-                onValueChange = { email = it },
+                value = viewModel.email,
+                onValueChange = { viewModel.email = it },
                 modifier = Modifier.background(neu1),
                 textStyle = TextStyle(neu4))
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
                 label = { Text(text = "Password", color = neu4) },
                 singleLine = true,
-                value = password,
+                value = viewModel.password,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                onValueChange = { password = it },
+                onValueChange = { viewModel.password = it },
                 modifier = Modifier.background(neu1),
                 textStyle = TextStyle(neu4)
             )
             Spacer(modifier = Modifier.height(20.dp))
             Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                 Button(onClick = {
-                    loginWithEmailAndPassword(email, password,
-                    onLoginSuccess = onLoginSuccess,
-                    onLoginFailed = onLoginFailed)
-                    navController.navigate(NavRoutes.Frame.route)
+                    viewModel.loginUser(context, navController)
                 },
                     shape = RoundedCornerShape(50.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = neu5),
-                    enabled = isEmailValid
+                    enabled = isValidEmail(viewModel.email.text)
                 ) {
                     Text(text = "LOGIN")
                 }
@@ -148,22 +142,4 @@ fun Login(
             )
         }
     }
-}
-
-private fun loginWithEmailAndPassword(
-    email: String,
-    password: String,
-    onLoginSuccess: () -> Unit,
-    onLoginFailed: (String) -> Unit
-) {
-    Firebase.auth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener{ task ->
-            if(task.isSuccessful){
-                setIsLoggedIn(true) // set isLoggedIn flag to true
-                onLoginSuccess()
-            }else{
-                setIsLoggedIn(false)
-                onLoginFailed(task.exception?.message?:"Error")
-            }
-        }
 }

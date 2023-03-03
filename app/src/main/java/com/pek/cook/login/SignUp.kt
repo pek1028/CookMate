@@ -91,12 +91,7 @@ fun SignUp(onSignUpSuccess: () -> Unit,
             Button(
                 onClick = {
                     if (password == confirmPassword) {
-                        signUpWithEmailAndPassword(
-                            email = email,
-                            password = password,
-                            onSignUpSuccess = onSignUpSuccess,
-                            onSignUpFailed = onSignUpFailed
-                        )
+                        
                     } else {
                         onSignUpFailed("Passwords do not match")
                     }
@@ -112,22 +107,6 @@ fun SignUp(onSignUpSuccess: () -> Unit,
             }
         }
     }
-}
-
-private fun signUpWithEmailAndPassword(
-    email: String,
-    password: String,
-    onSignUpSuccess: () -> Unit,
-    onSignUpFailed: (String) -> Unit
-) {
-    Firebase.auth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                onSignUpSuccess()
-            } else {
-                onSignUpFailed(task.exception?.message ?: "Unknown error")
-            }
-        }
 }
 
 

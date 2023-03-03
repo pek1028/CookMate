@@ -50,7 +50,7 @@ fun Search(navController: NavController, RecipeList: List<Recipe>) {
                 .fillMaxHeight()) {
 
                 var search by remember { mutableStateOf("") }
-
+                Spacer(modifier = Modifier.height(10.dp))
                 TextField(
                     value = search,
                     onValueChange = { search = it},
