@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pek.cook.MainActivity.Companion.TAG
-import com.pek.cook.Recipe
+import com.pek.cook.datas.Recipe
 
 
 // Add the recipe document to the user's recipe collection in Firestore

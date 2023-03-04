@@ -20,10 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pek.cook.R
-import com.pek.cook.Recipe
+import com.pek.cook.datas.Recipe
 import com.pek.cook.model.getFavoriteRecipesFromFirestore
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.ui.theme.neu3

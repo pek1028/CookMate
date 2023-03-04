@@ -1,6 +1,6 @@
-package com.pek.cook
+package com.pek.cook.datas
 
-import com.google.api.ResourceProto.resource
+import com.pek.cook.R
 
 object RecipeDatabase{
     val recipeList = listOf(

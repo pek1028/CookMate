@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.pek.cook.RecipeDatabase
+import com.pek.cook.datas.RecipeDatabase
 import com.pek.cook.model.*
 import com.pek.cook.nav.RecipeCard
 import com.pek.cook.ui.theme.d_gray

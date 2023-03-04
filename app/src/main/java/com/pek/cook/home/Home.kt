@@ -1,15 +1,15 @@
 package com.pek.cook.home
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +25,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.pek.cook.*
 import com.pek.cook.R
+import com.pek.cook.datas.Recipe
 import com.pek.cook.login.Login
 import com.pek.cook.login.SignUp
 import com.pek.cook.nav.BottomNavigationBar
@@ -120,6 +121,7 @@ fun NavigationHost(
 
 @Composable
 fun Home(navController : NavController) {
+    val context = LocalContext.current
     Box(modifier = Modifier
         .fillMaxSize()
         .background(neu3),
@@ -163,7 +165,10 @@ fun Home(navController : NavController) {
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        navController.navigate(NavRoutes.Logout.route)
+                        auth.signOut()
+                        val intent = Intent(context, context::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        context.startActivity(intent)
                                      },
                         modifier = Modifier
                             .height(45.dp)
