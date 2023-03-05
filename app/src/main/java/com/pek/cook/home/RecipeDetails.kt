@@ -24,7 +24,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.pek.cook.datas.RecipeDatabase
 import com.pek.cook.model.*
-import com.pek.cook.nav.RecipeCard
+import com.pek.cook.datas.RecipeCard
 import com.pek.cook.ui.theme.d_gray
 import com.pek.cook.ui.theme.neu1
 import com.pek.cook.ui.theme.neu3

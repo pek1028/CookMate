@@ -1,4 +1,4 @@
-package com.pek.cook.nav
+package com.pek.cook.datas
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pek.cook.R
-import com.pek.cook.ui.theme.neu1
 import com.pek.cook.ui.theme.neu4
 import com.pek.cook.ui.theme.neu5
 
