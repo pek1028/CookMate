@@ -18,6 +18,7 @@ class AuthViewModel : ViewModel() {
     var email by mutableStateOf(TextFieldValue())
     var password by mutableStateOf(TextFieldValue())
     var cpassword by mutableStateOf(TextFieldValue())
+
     fun loginUser(context: Context, navController: NavController) {
         val auth = FirebaseAuth.getInstance()
         viewModelScope.launch {
@@ -47,16 +48,6 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun updateEmail(context: Context, newEmail: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.updateEmail(newEmail)?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(context, "Email updated successfully", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Email update failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     fun updatePassword(context: Context, newPassword: String) {
         val user = FirebaseAuth.getInstance().currentUser

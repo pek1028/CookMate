@@ -27,11 +27,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.pek.cook.R
 import com.pek.cook.datas.Recipe
-import com.pek.cook.model.getIngredientsFromFirestore
+import com.pek.cook.datas.getIngredientsFromFirestore
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.ui.theme.*
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyList(
     navController: NavController,
@@ -66,7 +65,7 @@ fun MyList(
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    text = "Favorite list is empty!",
+                    text = "Shopping list is empty!",
                     color = neu4,
                     textAlign = TextAlign.Center,
                     fontSize = 30.sp,

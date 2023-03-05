@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -87,6 +88,7 @@ fun Profile(
                         onValueChange = { email = it },
                         modifier = Modifier.background(neu1),
                         textStyle = TextStyle(neu4),
+                        readOnly = true
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     TextField(
@@ -113,8 +115,6 @@ fun Profile(
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
                         if (password == cpassword) {
-                            // Call update email function in AuthViewModel
-                            viewModel.updateEmail(context, email)
 
                             // Call update password function in AuthViewModel
                             viewModel.updatePassword(context, password)

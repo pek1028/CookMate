@@ -23,11 +23,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.pek.cook.*
 import com.pek.cook.R
 import com.pek.cook.datas.Recipe
 import com.pek.cook.login.Login
 import com.pek.cook.login.SignUp
+import com.pek.cook.login.isLoggedIn
 import com.pek.cook.nav.BottomNavigationBar
 import com.pek.cook.nav.NavRoutes
 import com.pek.cook.ui.theme.*
@@ -193,7 +193,7 @@ fun Home(navController : NavController) {
                             textAlign = TextAlign.Center)
                         }
                     }
-                    Spacer(modifier = Modifier.height(80.dp))
+                    Spacer(modifier = Modifier.height(85.dp))
                     Text(text = "  Session Expired!\nPlease login again!")
                 }
             }

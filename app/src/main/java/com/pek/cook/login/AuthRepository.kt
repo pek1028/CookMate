@@ -1,9 +1,6 @@
-package com.pek.cook
+package com.pek.cook.login
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.ktx.auth;
-import com.google.firebase.ktx.Firebase;
 
 private val auth = FirebaseAuth.getInstance()
 
