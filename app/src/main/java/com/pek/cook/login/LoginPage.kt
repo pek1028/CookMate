@@ -11,7 +11,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -36,6 +39,9 @@ fun Login(
 ){
     val context = LocalContext.current
     val viewModel = remember { AuthViewModel() }
+
+    val emailField = FocusRequester()
+    val passwordField = FocusRequester()
 
     fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -90,7 +96,9 @@ fun Login(
                 singleLine = true,
                 value = viewModel.email,
                 onValueChange = { viewModel.email = it },
-                modifier = Modifier.background(neu1),
+                modifier = Modifier.background(neu1)
+                    .focusRequester(emailField)
+                    .testTag("emailField"),
                 textStyle = TextStyle(neu4))
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
@@ -100,7 +108,9 @@ fun Login(
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 onValueChange = { viewModel.password = it },
-                modifier = Modifier.background(neu1),
+                modifier = Modifier.background(neu1)
+                    .focusRequester(passwordField)
+                    .testTag("passwordField"),
                 textStyle = TextStyle(neu4)
             )
             Spacer(modifier = Modifier.height(20.dp))
