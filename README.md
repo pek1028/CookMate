@@ -2,6 +2,8 @@ CookMate
 
 Features:
 
+-Login / Log Out
+
 -Search Recipes
 
 -View Recipes
